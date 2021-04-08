@@ -15,7 +15,8 @@ class MySample extends StatefulWidget {
 class MySampleState extends State<MySample> {
   String cardNumber = '';
   String expiryDate = '';
-  String cardHolderName = '';
+  String cardName = '';
+  String cardLastName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -36,7 +37,8 @@ class MySampleState extends State<MySample> {
               CreditCardWidget(
                 cardNumber: cardNumber,
                 expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
+                cardName: cardName,
+                cardLastName: cardLastName,
                 cvvCode: cvvCode,
                 showBackView: isCvvFocused,
                 obscureCardNumber: true,
@@ -52,27 +54,27 @@ class MySampleState extends State<MySample> {
                         obscureNumber: true,
                         cardNumber: cardNumber,
                         cvvCode: cvvCode,
-                        cardHolderName: cardHolderName,
+                        cardName: cardName,
+                        cardLastName: cardLastName,
                         expiryDate: expiryDate,
                         themeColor: Colors.blue,
                         cardNumberDecoration: const InputDecoration(
-                          border: OutlineInputBorder(),
                           labelText: 'Number',
                           hintText: 'XXXX XXXX XXXX XXXX',
                         ),
                         expiryDateDecoration: const InputDecoration(
-                          border: OutlineInputBorder(),
                           labelText: 'Expired Date',
                           hintText: 'XX/XX',
                         ),
                         cvvCodeDecoration: const InputDecoration(
-                          border: OutlineInputBorder(),
                           labelText: 'CVV',
                           hintText: 'XXX',
                         ),
-                        cardHolderDecoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Card Holder',
+                        cardNameDecoration: const InputDecoration(
+                          labelText: 'First Name',
+                        ),
+                        cardLastNameDecoration: const InputDecoration(
+                          labelText: 'Last Name',
                         ),
                         onCreditCardModelChange: onCreditCardModelChange,
                       ),
@@ -118,7 +120,8 @@ class MySampleState extends State<MySample> {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
       expiryDate = creditCardModel.expiryDate;
-      cardHolderName = creditCardModel.cardHolderName;
+      cardName = creditCardModel.cardName;
+      cardLastName = creditCardModel.cardLastName;
       cvvCode = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });

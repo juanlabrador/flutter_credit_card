@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
-  CardType.visa: 'icons/visa.png',
-  CardType.americanExpress: 'icons/amex.png',
-  CardType.mastercard: 'icons/mastercard.png',
-  CardType.discover: 'icons/discover.png',
+  CardType.visa: 'icons/visa.svg',
+  CardType.americanExpress: 'icons/amex.svg',
+  CardType.mastercard: 'icons/mastercard.svg',
+  CardType.discover: 'icons/discover.svg',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -14,7 +15,8 @@ class CreditCardWidget extends StatefulWidget {
     Key? key,
     required this.cardNumber,
     required this.expiryDate,
-    required this.cardHolderName,
+    required this.cardName,
+    required this.cardLastName,
     required this.cvvCode,
     required this.showBackView,
     this.animationDuration = const Duration(milliseconds: 500),
@@ -31,7 +33,8 @@ class CreditCardWidget extends StatefulWidget {
 
   final String cardNumber;
   final String expiryDate;
-  final String cardHolderName;
+  final String cardName;
+  final String cardLastName;
   final String cvvCode;
   final TextStyle? textStyle;
   final Color cardBgColor;
@@ -165,7 +168,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               const TextStyle(
                 color: Colors.black,
                 fontFamily: 'halter',
-                fontSize: 16,
+                fontSize: 15,
                 package: 'flutter_credit_card',
               ),
             );
@@ -263,7 +266,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               const TextStyle(
                 color: Colors.white,
                 fontFamily: 'halter',
-                fontSize: 16,
+                fontSize: 15,
                 package: 'flutter_credit_card',
               ),
             );
@@ -324,9 +327,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.isEmpty
+                widget.cardName.isEmpty && widget.cardLastName.isEmpty
                     ? widget.labelCardHolder
-                    : widget.cardHolderName,
+                    : '${widget.cardName} ${widget.cardLastName}'.toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: widget.textStyle ?? defaultTextStyle,
@@ -429,8 +432,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     Widget icon;
     switch (detectCCType(cardNumber)) {
       case CardType.visa:
-        icon = Image.asset(
-          'icons/visa.png',
+        icon = SvgPicture.asset(
+          'icons/visa.svg',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',
@@ -439,8 +442,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         break;
 
       case CardType.americanExpress:
-        icon = Image.asset(
-          'icons/amex.png',
+        icon = SvgPicture.asset(
+          'icons/amex.svg',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',
@@ -449,8 +452,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         break;
 
       case CardType.mastercard:
-        icon = Image.asset(
-          'icons/mastercard.png',
+        icon = SvgPicture.asset(
+          'icons/mastercard.svg',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',
@@ -459,8 +462,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         break;
 
       case CardType.discover:
-        icon = Image.asset(
-          'icons/discover.png',
+        icon = SvgPicture.asset(
+          'icons/discover.svg',
           height: 48,
           width: 48,
           package: 'flutter_credit_card',

@@ -10,7 +10,8 @@ class CreditCardForm extends StatefulWidget {
     Key? key,
     required this.cardNumber,
     required this.expiryDate,
-    required this.cardHolderName,
+    required this.cardName,
+    required this.cardLastName,
     required this.cvvCode,
     this.obscureCvv = false,
     this.obscureNumber = false,
@@ -19,8 +20,11 @@ class CreditCardForm extends StatefulWidget {
     this.textColor = Colors.black,
     this.cursorColor,
     this.fontFamily,
-    this.cardHolderDecoration = const InputDecoration(
-      labelText: 'Card holder',
+    this.cardNameDecoration = const InputDecoration(
+      labelText: 'First Name',
+    ),
+    this.cardLastNameDecoration = const InputDecoration(
+      labelText: 'Last Name',
     ),
     this.cardNumberDecoration = const InputDecoration(
       labelText: 'Card number',
@@ -42,7 +46,8 @@ class CreditCardForm extends StatefulWidget {
 
   final String cardNumber;
   final String expiryDate;
-  final String cardHolderName;
+  final String cardName;
+  final String cardLastName;
   final String cvvCode;
   final String cvvValidationMessage;
   final String dateValidationMessage;
@@ -57,7 +62,8 @@ class CreditCardForm extends StatefulWidget {
   final String? fontFamily;
 
   final InputDecoration cardNumberDecoration;
-  final InputDecoration cardHolderDecoration;
+  final InputDecoration cardNameDecoration;
+  final InputDecoration cardLastNameDecoration;
   final InputDecoration expiryDateDecoration;
   final InputDecoration cvvCodeDecoration;
 
@@ -68,7 +74,8 @@ class CreditCardForm extends StatefulWidget {
 class _CreditCardFormState extends State<CreditCardForm> {
   late String cardNumber;
   late String expiryDate;
-  late String cardHolderName;
+  late String cardName;
+  late String cardLastName;
   late String cvvCode;
   bool isCvvFocused = false;
   late Color themeColor;
@@ -80,7 +87,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
       MaskedTextController(mask: '0000 0000 0000 0000');
   final TextEditingController _expiryDateController =
       MaskedTextController(mask: '00/00');
-  final TextEditingController _cardHolderNameController =
+  final TextEditingController _cardNameController = TextEditingController();
+  final TextEditingController _cardLastnameNameController =
       TextEditingController();
   final TextEditingController _cvvCodeController =
       MaskedTextController(mask: '0000');
@@ -88,7 +96,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
   FocusNode cvvFocusNode = FocusNode();
   FocusNode cardNumberNode = FocusNode();
   FocusNode expiryDateNode = FocusNode();
-  FocusNode cardHolderNode = FocusNode();
+  FocusNode cardNameNode = FocusNode();
+  FocusNode cardLastNameNode = FocusNode();
 
   void textFieldFocusDidChange() {
     creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
@@ -98,11 +107,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
   void createCreditCardModel() {
     cardNumber = widget.cardNumber;
     expiryDate = widget.expiryDate;
-    cardHolderName = widget.cardHolderName;
+    cardName = widget.cardName;
+    cardLastName = widget.cardLastName;
     cvvCode = widget.cvvCode;
 
     creditCardModel = CreditCardModel(
-        cardNumber, expiryDate, cardHolderName, cvvCode, isCvvFocused);
+        cardNumber, expiryDate, cardName, cardLastName, cvvCode, isCvvFocused);
   }
 
   @override
@@ -131,10 +141,18 @@ class _CreditCardFormState extends State<CreditCardForm> {
       });
     });
 
-    _cardHolderNameController.addListener(() {
+    _cardNameController.addListener(() {
       setState(() {
-        cardHolderName = _cardHolderNameController.text;
-        creditCardModel.cardHolderName = cardHolderName;
+        cardName = _cardNameController.text;
+        creditCardModel.cardName = cardName;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+
+    _cardLastnameNameController.addListener(() {
+      setState(() {
+        cardLastName = _cardLastnameNameController.text;
+        creditCardModel.cardLastName = cardLastName;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -150,7 +168,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   @override
   void dispose() {
-    cardHolderNode.dispose();
+    cardNameNode.dispose();
+    cardLastNameNode.dispose();
     cvvFocusNode.dispose();
     expiryDateNode.dispose();
     super.dispose();
@@ -175,7 +194,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
+              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
               child: TextFormField(
                 obscureText: widget.obscureNumber,
                 controller: _cardNumberController,
@@ -204,7 +223,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                    margin: const EdgeInsets.only(left: 16, top: 5, right: 10),
                     child: TextFormField(
                       controller: _expiryDateController,
                       cursorColor: widget.cursorColor ?? themeColor,
@@ -243,14 +262,14 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                    margin: const EdgeInsets.only(left: 10, top: 5, right: 16),
                     child: TextFormField(
                       obscureText: widget.obscureCvv,
                       focusNode: cvvFocusNode,
                       controller: _cvvCodeController,
                       cursorColor: widget.cursorColor ?? themeColor,
                       onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(cardHolderNode);
+                        FocusScope.of(context).requestFocus(cardNameNode);
                       },
                       style: TextStyle(
                         color: widget.textColor,
@@ -275,24 +294,53 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-              child: TextFormField(
-                controller: _cardHolderNameController,
-                cursorColor: widget.cursorColor ?? themeColor,
-                focusNode: cardHolderNode,
-                style: TextStyle(
-                  color: widget.textColor,
-                  fontFamily: widget.fontFamily,
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    margin: const EdgeInsets.only(left: 16, top: 5, right: 10),
+                    child: TextFormField(
+                      controller: _cardNameController,
+                      cursorColor: widget.cursorColor ?? themeColor,
+                      focusNode: cardNameNode,
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(cardLastNameNode);
+                      },
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontFamily: widget.fontFamily,
+                      ),
+                      decoration: widget.cardNameDecoration,
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.words,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
                 ),
-                decoration: widget.cardHolderDecoration,
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                onEditingComplete: () {
-                  onCreditCardModelChange(creditCardModel);
-                },
-              ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    margin: const EdgeInsets.only(left: 10, top: 5, right: 16),
+                    child: TextFormField(
+                      focusNode: cardLastNameNode,
+                      controller: _cardLastnameNameController,
+                      cursorColor: widget.cursorColor ?? themeColor,
+                      onEditingComplete: () {
+                        onCreditCardModelChange(creditCardModel);
+                      },
+                      style: TextStyle(
+                        color: widget.textColor,
+                        fontFamily: widget.fontFamily,
+                      ),
+                      decoration: widget.cardLastNameDecoration,
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.words,
+                      textInputAction: TextInputAction.done,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -1,10 +1,11 @@
 class CreditCardModel {
-  CreditCardModel(this.cardNumber, this.expiryDate, this.cardHolderName,
-      this.cvvCode, this.isCvvFocused);
+  CreditCardModel(this.cardNumber, this.expiryDate, this.cardName,
+      this.cardLastName, this.cvvCode, this.isCvvFocused);
 
   String cardNumber = '';
   String expiryDate = '';
-  String cardHolderName = '';
+  String cardName = '';
+  String cardLastName = '';
   String cvvCode = '';
   String brand = '';
   bool isCvvFocused = false;
