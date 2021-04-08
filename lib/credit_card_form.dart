@@ -54,7 +54,7 @@ class CreditCardForm extends StatefulWidget {
   final bool obscureCvv;
   final bool obscureNumber;
   final GlobalKey<FormState> formKey;
-  final String fontFamily;
+  final String? fontFamily;
 
   final InputDecoration cardNumberDecoration;
   final InputDecoration cardHolderDecoration;
