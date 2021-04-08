@@ -18,7 +18,7 @@ class CreditCardForm extends StatefulWidget {
     required this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
-    this.fontFamily = fontFamily,
+    this.fontFamily,
     this.cardHolderDecoration = const InputDecoration(
       labelText: 'Card holder',
     ),
