@@ -18,6 +18,7 @@ class CreditCardForm extends StatefulWidget {
     required this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
+    this.fontFamily = fontFamily,
     this.cardHolderDecoration = const InputDecoration(
       labelText: 'Card holder',
     ),
@@ -33,7 +34,6 @@ class CreditCardForm extends StatefulWidget {
       labelText: 'CVV',
       hintText: 'XXX',
     ),
-    this.fontFamily = fontFamily,
     required this.formKey,
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
