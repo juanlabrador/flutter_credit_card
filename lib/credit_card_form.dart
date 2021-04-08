@@ -33,7 +33,7 @@ class CreditCardForm extends StatefulWidget {
       labelText: 'CVV',
       hintText: 'XXX',
     ),
-    this.fontFamily = fontFamily;
+    this.fontFamily = fontFamily,
     required this.formKey,
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
