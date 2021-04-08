@@ -33,6 +33,7 @@ class CreditCardForm extends StatefulWidget {
       labelText: 'CVV',
       hintText: 'XXX',
     ),
+    this.fontFamily = fontFamily;
     required this.formKey,
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
@@ -53,6 +54,7 @@ class CreditCardForm extends StatefulWidget {
   final bool obscureCvv;
   final bool obscureNumber;
   final GlobalKey<FormState> formKey;
+  final String fontFamily;
 
   final InputDecoration cardNumberDecoration;
   final InputDecoration cardHolderDecoration;
@@ -183,6 +185,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 },
                 style: TextStyle(
                   color: widget.textColor,
+                  fontFamily: widget.fontFamily,
                 ),
                 decoration: widget.cardNumberDecoration,
                 keyboardType: TextInputType.number,
@@ -211,6 +214,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       },
                       style: TextStyle(
                         color: widget.textColor,
+                        fontFamily: widget.fontFamily,
                       ),
                       decoration: widget.expiryDateDecoration,
                       keyboardType: TextInputType.number,
@@ -250,6 +254,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       },
                       style: TextStyle(
                         color: widget.textColor,
+                        fontFamily: widget.fontFamily,
                       ),
                       decoration: widget.cvvCodeDecoration,
                       keyboardType: TextInputType.number,
@@ -279,6 +284,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 focusNode: cardHolderNode,
                 style: TextStyle(
                   color: widget.textColor,
+                  fontFamily: widget.fontFamily,
                 ),
                 decoration: widget.cardHolderDecoration,
                 keyboardType: TextInputType.text,
