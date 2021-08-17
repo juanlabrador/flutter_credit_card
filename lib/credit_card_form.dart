@@ -273,7 +273,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 textInputAction: TextInputAction.next,
                 validator: (String? value) {
                   // Validate less that 13 digits +3 white spaces
-                  if (value!.isEmpty || value.length < 16) {
+                  if (value!.isEmpty || value.length < 20) {
                     return widget.numberValidationMessage;
                   }
                   return null;
